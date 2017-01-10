@@ -383,6 +383,10 @@ function genericPrintNoParens(path, options, print) {
 
     return join(" ", parts);
   case "ImportSpecifier":
+    if (n.importKind) {
+      parts.push(path.call(print, "importKind"), " ");
+    }
+
     if (n.imported) {
       parts.push(path.call(print, "imported"));
 

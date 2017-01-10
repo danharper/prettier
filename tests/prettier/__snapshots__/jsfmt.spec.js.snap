@@ -1,0 +1,13 @@
+exports[`test flow-shorthand-type.js 1`] = `
+"import {
+  a,
+  type b,
+  type as,
+  type c as d,
+  typeof e,
+  typeof as,
+  typeof f as g,
+} from \'h\'
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+import { a, type b, type as, type c as d, typeof e, typeof as, typeof f as g } from \"h\";"
+`;
