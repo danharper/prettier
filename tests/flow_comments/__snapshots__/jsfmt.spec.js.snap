@@ -33,7 +33,7 @@ const beep = (data /*: Object*/, secondData /*: Object*/) => {};
 exports[`arrow-single-optional-param.js 1`] = `
 "const x = (foo /*:: ?*/) => {};
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-const x = foo? => {};
+const x = (foo?) => {};
 "
 `;
 
@@ -68,7 +68,7 @@ exports[`class-prop-values.js 1`] = `
 class X {
   foo = 2;
   bar /*: number*/ = 3;
-  baz: ?string;
+  /*:: baz: ?string;*/
 }
 "
 `;
@@ -95,8 +95,8 @@ exports[`class-prop-values-2.js 1`] = `
 }
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 class X {
-  a: number;
-  b: ?string;
+  /*:: a: number;*/
+  /*:: b: ?string;*/
 }
 "
 `;
@@ -168,18 +168,18 @@ exports[`declare-statements.js 1`] = `
 /*:: declare interface I { foo: string }*/
 /*:: declare interface I<T> { foo: T }*/
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-declare var foo;
-declare var foo;
-declare function foo(): void;
-declare function foo(): void;
-declare function foo<T>(): void;
-declare function foo(x: number, y: string): void;
-declare class A {}
-declare class A<T> extends B<T> { x: number }
-declare class A { static foo(): number, static x: string }
-declare class A { [indexer: number]: string }
-declare class A { static (): number }
-declare class A {}
+/*:: declare var foo;*/
+/*:: declare var foo;*/
+/*:: declare function foo(): void;*/
+/*:: declare function foo(): void;*/
+/*:: declare function foo<T>(): void;*/
+/*:: declare function foo(x: number, y: string): void;*/
+/*:: declare class A {}*/
+/*:: declare class A<T> extends B<T> { x: number }*/
+/*:: declare class A { static foo(): number, static x: string }*/
+/*:: declare class A { [indexer: number]: string }*/
+/*:: declare class A { static (): number }*/
+/*:: declare class A {}*/
 declare type A = string;
 declare type T<U> = { [k: string]: U };
 declare interface I { foo: string }
@@ -231,7 +231,7 @@ function f /*:: <+T, -U>*/() {}
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 class C<+T, -U> {}
 function f<+T, -U>() {}
-/*:: type T<+T, -U> = {} */
+/*:: type T<+T, -U> = {};*/
 "
 `;
 
@@ -594,12 +594,12 @@ exports[`type-alias.js 1`] = `
 ;*/
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 function a() {}
-/*:: type A = number */
+/*:: type A = number;*/
 /*:: type B = {
   name: string
-} */
-/*:: type union = { type: \\"A\\" } | { type: \\"B\\" } */
-/*:: type overloads = ((x: string) => number) & ((x: number) => string) */
+};*/
+/*:: type union = { type: \\"A\\" } | { type: \\"B\\" };*/
+/*:: type overloads = ((x: string) => number) & ((x: number) => string);*/
 "
 `;
 
@@ -642,12 +642,12 @@ exports[`type-alias-with-comment.js 1`] = `
 name: string;
 };*/
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-/*:: type T = /*test*/ number */
-/*:: type T2 = /* *-ESCAPED/ */ number */
+/*:: type T = /*test*/ number;*/
+/*:: type T2 = /* *-ESCAPED/ */ number;*/
 /*:: type CustomType = {
   /** This is some documentation. */
   name: string
-} */
+};*/
 "
 `;
 

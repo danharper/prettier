@@ -1400,7 +1400,7 @@ function genericPrintNoParens(path, options, print) {
 
       parts.push(";");
 
-      return concat(parts);
+      return maybePrintAsFlowComment(n, options.originalText, concat(parts));
     case "ClassDeclaration":
     case "ClassExpression":
       return concat(printClass(path, options, print));
@@ -1473,21 +1473,17 @@ function genericPrintNoParens(path, options, print) {
     // transformed away before printing.
     case "TypeAnnotation":
       if (n.typeAnnotation) {
-        const isFlowComment = options.originalText
-          .slice(util.locStart(n), util.locEnd(n))
-          .startsWith('/*:');
+        return maybePrintAsFlowComment(n, options.originalText, isFlowComment => {
+          if (
+            n.typeAnnotation.type !== "FunctionTypeAnnotation" && !isFlowComment
+          ) {
+            parts.push(": ");
+          }
 
-        if (n.typeAnnotation.type !== "FunctionTypeAnnotation") {
-          parts.push(isFlowComment ? " /*: " : ": ");
-        }
+          parts.push(path.call(print, "typeAnnotation"));
 
-        parts.push(path.call(print, "typeAnnotation"));
-
-        if (isFlowComment) {
-          parts.push("*/")
-        }
-
-        return concat(parts);
+          return concat(parts);
+        });
       }
 
       return "";
@@ -1510,9 +1506,9 @@ function genericPrintNoParens(path, options, print) {
     case "BooleanLiteralTypeAnnotation":
       return "" + n.value;
     case "DeclareClass":
-      return printFlowDeclaration(path, printClass(path, options, print));
+      return printFlowDeclaration(path, options.originalText, printClass(path, options, print));
     case "DeclareFunction":
-      return printFlowDeclaration(path, [
+      return printFlowDeclaration(path, options.originalText, [
         "function ",
         path.call(print, "id"),
         n.predicate ? " " : "",
@@ -1520,20 +1516,20 @@ function genericPrintNoParens(path, options, print) {
         ";"
       ]);
     case "DeclareModule":
-      return printFlowDeclaration(path, [
+      return printFlowDeclaration(path, options.originalText, [
         "module ",
         path.call(print, "id"),
         " ",
         path.call(print, "body")
       ]);
     case "DeclareModuleExports":
-      return printFlowDeclaration(path, [
+      return printFlowDeclaration(path, options.originalText, [
         "module.exports",
         path.call(print, "typeAnnotation"),
         ";"
       ]);
     case "DeclareVariable":
-      return printFlowDeclaration(path, ["var ", path.call(print, "id"), ";"]);
+      return printFlowDeclaration(path, options.originalText, ["var ", path.call(print, "id"), ";"]);
     case "DeclareExportAllDeclaration":
       return concat(["declare export * from ", path.call(print, "source")]);
     case "DeclareExportDeclaration":
@@ -1722,20 +1718,6 @@ function genericPrintNoParens(path, options, print) {
       return "string";
     case "DeclareTypeAlias":
     case "TypeAlias": {
-      const prevCharPosition = util.skipWhitespace(
-        options.originalText,
-        util.locStart(n) - 1,
-        { backwards: true }
-      );
-
-      const isFlowComment = options.originalText
-        .slice(prevCharPosition - 3, util.locStart(n))
-        .startsWith('/*::');
-
-      if (isFlowComment) {
-        parts.push("/*:: ");
-      }
-
       if (
         n.type === "DeclareTypeAlias" ||
         isFlowNodeStartingWithDeclare(n, options)
@@ -1754,10 +1736,10 @@ function genericPrintNoParens(path, options, print) {
               concat([hardline, path.call(print, "right")])
             )
           : concat([" ", path.call(print, "right")]),
-        isFlowComment ? " */" : ";"
+        ";"
       );
 
-      return concat(parts);
+      return maybePrintAsFlowComment(n, options.originalText, concat(parts));
     }
     case "TypeCastExpression":
       return concat([
@@ -2236,7 +2218,7 @@ function printExportDeclaration(path, options, print) {
   return concat(parts);
 }
 
-function printFlowDeclaration(path, parts) {
+function printFlowDeclaration(path, source, parts) {
   var parentExportDecl = util.getParentExportDeclaration(path);
 
   if (parentExportDecl) {
@@ -2248,7 +2230,31 @@ function printFlowDeclaration(path, parts) {
     parts.unshift("declare ");
   }
 
-  return concat(parts);
+  return maybePrintAsFlowComment(path.getValue(), source, concat(parts));
+}
+
+function maybePrintAsFlowComment(node, source, parts) {
+  const prevCharPosition = util.skipWhitespace(
+    source,
+    util.locStart(node) - 1,
+    { backwards: true }
+  );
+
+  const front = source.slice(prevCharPosition - 3, util.locStart(node) - 1);
+
+  const inlineAnnotationComment = source.slice(util.locStart(node), util.locEnd(node)).startsWith("/*:");
+  const isFlowComment = /* handling e.g. `declare ..`, class properties etc.. */ front.startsWith("/*:") || /* hanlding type annotations where the comment is included in the AST */ inlineAnnotationComment;
+  const isDoubleFlowComment = front === "/*::";
+
+  if (isFlowComment) {
+    return concat([
+      isDoubleFlowComment ? "/*:: " : inlineAnnotationComment ? " /*: " : "/*: ",
+      typeof parts === 'function' ? parts(isFlowComment) : parts,
+      "*/"
+    ]);
+  } else {
+    return typeof parts === 'function' ? parts(isFlowComment) : parts;
+  }
 }
 
 function printClass(path, options, print) {
