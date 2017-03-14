@@ -1473,11 +1473,19 @@ function genericPrintNoParens(path, options, print) {
     // transformed away before printing.
     case "TypeAnnotation":
       if (n.typeAnnotation) {
+        const isFlowComment = options.originalText
+          .slice(util.locStart(n), util.locEnd(n))
+          .startsWith('/*:');
+
         if (n.typeAnnotation.type !== "FunctionTypeAnnotation") {
-          parts.push(": ");
+          parts.push(isFlowComment ? " /*: " : ": ");
         }
 
         parts.push(path.call(print, "typeAnnotation"));
+
+        if (isFlowComment) {
+          parts.push("*/")
+        }
 
         return concat(parts);
       }
@@ -1714,6 +1722,20 @@ function genericPrintNoParens(path, options, print) {
       return "string";
     case "DeclareTypeAlias":
     case "TypeAlias": {
+      const prevCharPosition = util.skipWhitespace(
+        options.originalText,
+        util.locStart(n) - 1,
+        { backwards: true }
+      );
+
+      const isFlowComment = options.originalText
+        .slice(prevCharPosition - 3, util.locStart(n))
+        .startsWith('/*::');
+
+      if (isFlowComment) {
+        parts.push("/*:: ");
+      }
+
       if (
         n.type === "DeclareTypeAlias" ||
         isFlowNodeStartingWithDeclare(n, options)
@@ -1732,7 +1754,7 @@ function genericPrintNoParens(path, options, print) {
               concat([hardline, path.call(print, "right")])
             )
           : concat([" ", path.call(print, "right")]),
-        ";"
+        isFlowComment ? " */" : ";"
       );
 
       return concat(parts);

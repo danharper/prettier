@@ -8,10 +8,10 @@ const beep = (data/*: Object*/) => {}
 const beep = (data/*: Object*/, secondData/*: Object*/) => {}
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // Error
-const beep = (data: Object) => {};
+const beep = (data /*: Object*/) => {};
 
 // OK
-const beep = (data: Object, secondData: Object) => {};
+const beep = (data /*: Object*/, secondData /*: Object*/) => {};
 "
 `;
 
@@ -27,5 +27,661 @@ const beep = (data /*: Object*/) => {};
 
 // OK
 const beep = (data /*: Object*/, secondData /*: Object*/) => {};
+"
+`;
+
+exports[`arrow-single-optional-param.js 1`] = `
+"const x = (foo /*:: ?*/) => {};
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+const x = foo? => {};
+"
+`;
+
+exports[`arrow-single-optional-param.js 2`] = `
+"const x = (foo /*:: ?*/) => {};
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+const x = (foo /*:: ?*/) => {};
+"
+`;
+
+exports[`arrow-single-param.js 1`] = `
+"const x = (foo /*: string*/) => {};
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+const x = (foo /*: string*/) => {};
+"
+`;
+
+exports[`arrow-single-param.js 2`] = `
+"const x = (foo /*: string*/) => {};
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+const x = (foo /*: string*/) => {};
+"
+`;
+
+exports[`class-prop-values.js 1`] = `
+"class X {
+  foo = 2;
+  bar /*: number*/ = 3;
+  /*:: baz: ?string*/
+}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+class X {
+  foo = 2;
+  bar /*: number*/ = 3;
+  baz: ?string;
+}
+"
+`;
+
+exports[`class-prop-values.js 2`] = `
+"class X {
+  foo = 2;
+  bar /*: number*/ = 3;
+  /*:: baz: ?string*/
+}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+class X {
+  foo = 2;
+  bar /*: number*/ = 3;
+  /*:: baz: ?string*/
+}
+"
+`;
+
+exports[`class-prop-values-2.js 1`] = `
+"class X {
+  /*:: a: number*/
+  /*:: b: ?string*/
+}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+class X {
+  a: number;
+  b: ?string;
+}
+"
+`;
+
+exports[`class-prop-values-2.js 2`] = `
+"class X {
+  /*:: a: number*/
+  /*:: b: ?string*/
+}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+class X {
+  /*:: a: number*/
+  /*:: b: ?string*/
+}
+"
+`;
+
+exports[`class-prop-values-3.js 1`] = `
+"class X {
+  constructor() {
+    this.a = 2;
+    this.b = '3';
+  }
+
+}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+class X {
+  constructor() {
+    this.a = 2;
+    this.b = \\"3\\";
+  }
+}
+"
+`;
+
+exports[`class-prop-values-3.js 2`] = `
+"class X {
+  constructor() {
+    this.a = 2;
+    this.b = '3';
+  }
+
+}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+class X {
+  constructor() {
+    this.a = 2;
+    this.b = \\"3\\";
+  }
+}
+"
+`;
+
+exports[`declare-statements.js 1`] = `
+"/*:: declare var foo*/
+/*:: declare var foo;*/
+/*:: declare function foo(): void*/
+/*:: declare function foo(): void;*/
+/*:: declare function foo<T>(): void;*/
+/*:: declare function foo(x: number, y: string): void;*/
+/*:: declare class A {}*/
+/*:: declare class A<T> extends B<T> { x: number }*/
+/*:: declare class A { static foo(): number, static x : string }*/
+/*:: declare class A { static [ indexer: number]: string }*/
+/*:: declare class A { static () : number }*/
+/*:: declare class A mixins B<T>, C {}*/
+/*:: declare type A = string*/
+/*:: declare type T<U> = { [k:string]: U }*/
+/*:: declare interface I { foo: string }*/
+/*:: declare interface I<T> { foo: T }*/
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+declare var foo;
+declare var foo;
+declare function foo(): void;
+declare function foo(): void;
+declare function foo<T>(): void;
+declare function foo(x: number, y: string): void;
+declare class A {}
+declare class A<T> extends B<T> { x: number }
+declare class A { static foo(): number, static x: string }
+declare class A { [indexer: number]: string }
+declare class A { static (): number }
+declare class A {}
+declare type A = string;
+declare type T<U> = { [k: string]: U };
+declare interface I { foo: string }
+declare interface I<T> { foo: T }
+"
+`;
+
+exports[`declare-statements.js 2`] = `
+"/*:: declare var foo*/
+/*:: declare var foo;*/
+/*:: declare function foo(): void*/
+/*:: declare function foo(): void;*/
+/*:: declare function foo<T>(): void;*/
+/*:: declare function foo(x: number, y: string): void;*/
+/*:: declare class A {}*/
+/*:: declare class A<T> extends B<T> { x: number }*/
+/*:: declare class A { static foo(): number, static x : string }*/
+/*:: declare class A { static [ indexer: number]: string }*/
+/*:: declare class A { static () : number }*/
+/*:: declare class A mixins B<T>, C {}*/
+/*:: declare type A = string*/
+/*:: declare type T<U> = { [k:string]: U }*/
+/*:: declare interface I { foo: string }*/
+/*:: declare interface I<T> { foo: T }*/
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/*:: declare var foo*/
+/*:: declare var foo;*/
+/*:: declare function foo(): void*/
+/*:: declare function foo(): void;*/
+/*:: declare function foo<T>(): void;*/
+/*:: declare function foo(x: number, y: string): void;*/
+/*:: declare class A {}*/
+/*:: declare class A<T> extends B<T> { x: number }*/
+/*:: declare class A { static foo(): number, static x : string }*/
+/*:: declare class A { static [ indexer: number]: string }*/
+/*:: declare class A { static () : number }*/
+/*:: declare class A mixins B<T>, C {}*/
+/*:: declare type A = string*/
+/*:: declare type T<U> = { [k:string]: U }*/
+/*:: declare interface I { foo: string }*/
+/*:: declare interface I<T> { foo: T }*/
+"
+`;
+
+exports[`def-site-variance.js 1`] = `
+"class C /*:: <+T, -U>*/ {}
+function f /*:: <+T, -U>*/() {}
+/*:: type T<+T, -U> = {};*/
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+class C<+T, -U> {}
+function f<+T, -U>() {}
+/*:: type T<+T, -U> = {} */
+"
+`;
+
+exports[`def-site-variance.js 2`] = `
+"class C /*:: <+T, -U>*/ {}
+function f /*:: <+T, -U>*/() {}
+/*:: type T<+T, -U> = {};*/
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+class C /*:: <+T, -U>*/ {
+}
+function f(/*:: <+T, -U>*/) {}
+/*:: type T<+T, -U> = {};*/
+"
+`;
+
+exports[`default-parameters.js 1`] = `
+"function foo(numVal /*:: ?*/) {}
+function foo(numVal /*:: ?*/ = 2) {}
+function foo(numVal /*: number*/) {}
+function foo(numVal /*:: ?: number*/) {}
+function foo(numVal /*: number*/ = 2) {}
+function foo(numVal /*:: ?: number*/ = 2) {}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+function foo(numVal?) {}
+function foo(numVal? = 2) {}
+function foo(numVal /*: number*/) {}
+function foo(numVal?: number) {}
+function foo(numVal /*: number*/ = 2) {}
+function foo(numVal?: number = 2) {}
+"
+`;
+
+exports[`default-parameters.js 2`] = `
+"function foo(numVal /*:: ?*/) {}
+function foo(numVal /*:: ?*/ = 2) {}
+function foo(numVal /*: number*/) {}
+function foo(numVal /*:: ?: number*/) {}
+function foo(numVal /*: number*/ = 2) {}
+function foo(numVal /*:: ?: number*/ = 2) {}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+function foo(numVal /*:: ?*/) {}
+function foo(numVal /*:: ?*/ = 2) {}
+function foo(numVal /*: number*/) {}
+function foo(numVal /*:: ?: number*/) {}
+function foo(numVal /*: number*/ = 2) {}
+function foo(numVal /*:: ?: number*/ = 2) {}
+"
+`;
+
+exports[`export-type-alias.js 1`] = `
+"/*:: export type GraphQLFormattedError = number;*/
+/*:: export type GraphQLFormattedErrorX = {
+  message: string,
+  locations?: Array<{
+    line: number,
+    column: number
+  }>
+};*/
+/*:: export interface foo { p: number }*/
+/*:: export interface fooX<T> { p: T }*/
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+export type GraphQLFormattedError = number;
+export type GraphQLFormattedErrorX = {
+  message: string,
+  locations?: Array<{
+    line: number,
+    column: number
+  }>
+};
+export interface foo { p: number }
+export interface fooX<T> { p: T }
+"
+`;
+
+exports[`export-type-alias.js 2`] = `
+"/*:: export type GraphQLFormattedError = number;*/
+/*:: export type GraphQLFormattedErrorX = {
+  message: string,
+  locations?: Array<{
+    line: number,
+    column: number
+  }>
+};*/
+/*:: export interface foo { p: number }*/
+/*:: export interface fooX<T> { p: T }*/
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/*:: export type GraphQLFormattedError = number;*/
+/*:: export type GraphQLFormattedErrorX = {
+  message: string,
+  locations?: Array<{
+    line: number,
+    column: number
+  }>
+};*/
+/*:: export interface foo { p: number }*/
+/*:: export interface fooX<T> { p: T }*/
+"
+`;
+
+exports[`import-type-alias.js 1`] = `
+"import lib from 'library';
+/*:: import type A, { B, C } from './types';*/
+/*:: import typeof D, { E, F } from './types';*/
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+import lib from \\"library\\";
+import type A, { B, C } from \\"./types\\";
+import typeof D, { E, F } from \\"./types\\";
+"
+`;
+
+exports[`import-type-alias.js 2`] = `
+"import lib from 'library';
+/*:: import type A, { B, C } from './types';*/
+/*:: import typeof D, { E, F } from './types';*/
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+import lib from \\"library\\";
+/*:: import type A, { B, C } from './types';*/
+/*:: import typeof D, { E, F } from './types';*/
+"
+`;
+
+exports[`object-method-type-annotations.js 1`] = `
+"// @flow
+var obj = {
+  method: function (a /*: string*/) /*: number*/ {
+    return 5 + 5;
+  }
+};
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// @flow
+var obj = {
+  method: function(a /*: string*/) /*: number*/ {
+    return 5 + 5;
+  }
+};
+"
+`;
+
+exports[`object-method-type-annotations.js 2`] = `
+"// @flow
+var obj = {
+  method: function (a /*: string*/) /*: number*/ {
+    return 5 + 5;
+  }
+};
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// @flow
+var obj = {
+  method: function(a /*: string*/) /*: number*/ {
+    return 5 + 5;
+  }
+};
+"
+`;
+
+exports[`optional-parameters.js 1`] = `
+"function multiply(num /*:: ?: number*/) {}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+function multiply(num?: number) {}
+"
+`;
+
+exports[`optional-parameters.js 2`] = `
+"function multiply(num /*:: ?: number*/) {}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+function multiply(num /*:: ?: number*/) {}
+"
+`;
+
+exports[`optional-type.js 1`] = `
+"function foo(bar /*:: ?*/) {}
+function foo2(bar /*:: ?: string*/) {}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+function foo(bar?) {}
+function foo2(bar?: string) {}
+"
+`;
+
+exports[`optional-type.js 2`] = `
+"function foo(bar /*:: ?*/) {}
+function foo2(bar /*:: ?: string*/) {}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+function foo(bar /*:: ?*/) {}
+function foo2(bar /*:: ?: string*/) {}
+"
+`;
+
+exports[`transformed-class-method-loose-return-type-annotation.js 1`] = `
+"'use strict';
+
+// @flow
+var C = function () {
+  function C() {
+    babelHelpers.classCallCheck(this, C);
+  }
+
+  C.prototype.m = function m(x /*: number*/) /*: string*/ {
+    return 'a';
+  };
+
+  return C;
+}();
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+\\"use strict\\";
+
+// @flow
+var C = (function() {
+  function C() {
+    babelHelpers.classCallCheck(this, C);
+  }
+
+  C.prototype.m = function m(x /*: number*/) /*: string*/ {
+    return \\"a\\";
+  };
+
+  return C;
+})();
+"
+`;
+
+exports[`transformed-class-method-loose-return-type-annotation.js 2`] = `
+"'use strict';
+
+// @flow
+var C = function () {
+  function C() {
+    babelHelpers.classCallCheck(this, C);
+  }
+
+  C.prototype.m = function m(x /*: number*/) /*: string*/ {
+    return 'a';
+  };
+
+  return C;
+}();
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+\\"use strict\\";
+
+// @flow
+var C = (function() {
+  function C() {
+    babelHelpers.classCallCheck(this, C);
+  }
+
+  C.prototype.m = function m(x /*: number*/) /*: string*/ {
+    return \\"a\\";
+  };
+
+  return C;
+})();
+"
+`;
+
+exports[`transformed-class-method-return-type-annotation.js 1`] = `
+"'use strict';
+
+// @flow
+var C = function () {
+  function C() {
+    babelHelpers.classCallCheck(this, C);
+  }
+
+  babelHelpers.createClass(C, [{
+    key: 'm',
+    value: function m(x /*: number*/) /*: string*/ {
+      return 'a';
+    }
+  }]);
+  return C;
+}();
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+\\"use strict\\";
+
+// @flow
+var C = (function() {
+  function C() {
+    babelHelpers.classCallCheck(this, C);
+  }
+
+  babelHelpers.createClass(C, [
+    {
+      key: \\"m\\",
+      value: function m(x /*: number*/) /*: string*/ {
+        return \\"a\\";
+      }
+    }
+  ]);
+  return C;
+})();
+"
+`;
+
+exports[`transformed-class-method-return-type-annotation.js 2`] = `
+"'use strict';
+
+// @flow
+var C = function () {
+  function C() {
+    babelHelpers.classCallCheck(this, C);
+  }
+
+  babelHelpers.createClass(C, [{
+    key: 'm',
+    value: function m(x /*: number*/) /*: string*/ {
+      return 'a';
+    }
+  }]);
+  return C;
+}();
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+\\"use strict\\";
+
+// @flow
+var C = (function() {
+  function C() {
+    babelHelpers.classCallCheck(this, C);
+  }
+
+  babelHelpers.createClass(C, [
+    {
+      key: \\"m\\",
+      value: function m(x /*: number*/) /*: string*/ {
+        return \\"a\\";
+      }
+    }
+  ]);
+  return C;
+})();
+"
+`;
+
+exports[`type.js 1`] = `
+"function foo(x /*: number*/) /*: string*/ {}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+function foo(x /*: number*/) /*: string*/ {}
+"
+`;
+
+exports[`type.js 2`] = `
+"function foo(x /*: number*/) /*: string*/ {}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+function foo(x /*: number*/) /*: string*/ {
+}
+"
+`;
+
+exports[`type-alias.js 1`] = `
+"function a() {}
+/*:: type A = number;*/
+/*:: type B = {
+  name: string;
+};*/
+/*:: type union =
+ | {type: \\"A\\"}
+ | {type: \\"B\\"}
+;*/
+/*:: type overloads =
+  & ((x: string) => number)
+  & ((x: number) => string)
+;*/
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+function a() {}
+/*:: type A = number */
+/*:: type B = {
+  name: string
+} */
+/*:: type union = { type: \\"A\\" } | { type: \\"B\\" } */
+/*:: type overloads = ((x: string) => number) & ((x: number) => string) */
+"
+`;
+
+exports[`type-alias.js 2`] = `
+"function a() {}
+/*:: type A = number;*/
+/*:: type B = {
+  name: string;
+};*/
+/*:: type union =
+ | {type: \\"A\\"}
+ | {type: \\"B\\"}
+;*/
+/*:: type overloads =
+  & ((x: string) => number)
+  & ((x: number) => string)
+;*/
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+function a() {}
+/*:: type A = number;*/
+/*:: type B = {
+  name: string;
+};*/
+/*:: type union =
+ | {type: \\"A\\"}
+ | {type: \\"B\\"}
+;*/
+/*:: type overloads =
+  & ((x: string) => number)
+  & ((x: number) => string)
+;*/
+"
+`;
+
+exports[`type-alias-with-comment.js 1`] = `
+"/*:: type T = /*test*-/ number;*/
+/*:: type T2 = /* *-ESCAPED/ *-/ number;*/
+/*:: type CustomType = {
+/** This is some documentation. *-/
+name: string;
+};*/
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/*:: type T = /*test*/ number */
+/*:: type T2 = /* *-ESCAPED/ */ number */
+/*:: type CustomType = {
+  /** This is some documentation. */
+  name: string
+} */
+"
+`;
+
+exports[`type-alias-with-comment.js 2`] = `
+"/*:: type T = /*test*-/ number;*/
+/*:: type T2 = /* *-ESCAPED/ *-/ number;*/
+/*:: type CustomType = {
+/** This is some documentation. *-/
+name: string;
+};*/
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/*:: type T = /*test*-/ number;*/
+/*:: type T2 = /* *-ESCAPED/ *-/ number;*/
+/*:: type CustomType = {
+/** This is some documentation. *-/
+name: string;
+};*/
+"
+`;
+
+exports[`type-cast.js 1`] = `
+"var a = (y /*: any*/);
+var a = ((y /*: foo*/) /*: any*/);
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+var a = (y /*: any*/);
+var a = ((y /*: foo*/) /*: any*/);
+"
+`;
+
+exports[`type-cast.js 2`] = `
+"var a = (y /*: any*/);
+var a = ((y /*: foo*/) /*: any*/);
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+var a = y /*: any*/;
+var a = y /*: foo*/ /*: any*/;
 "
 `;
